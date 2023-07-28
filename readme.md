@@ -16,7 +16,7 @@ result = pipe(iterable) \
             .to_list()  # [4, 16]
 ```
 
-See detailed examples in `example.py`.
+See detailed examples in `examples.py`.
 
 ## Currently available wrappers
 
