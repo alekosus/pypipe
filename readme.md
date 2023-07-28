@@ -2,6 +2,12 @@
 
 Yep, like in _cool_ languages (StreamAPI in Java, LINQ in C#)
 
+## Installation
+
+```
+pip install git+https://github.com/MrRboby/pypipe
+```
+
 ## How to use
 
 ```python
