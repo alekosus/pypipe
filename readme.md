@@ -22,11 +22,27 @@ See detailed examples in `example.py`.
 
 * `map`
 * `filter`
-* `reduce` (not available for dictionaries)
+* `filter_false`
+* `reduce`
+* `reduce_inner`
 * `reverse` (for ordering sequences, like lists or tuples)
 * `to_list`
 * `to_set`
 * `to_dict` (for mapping sequences, like dicts)
+
+
+## Changelog
+
+* __0.2 (28.07.2023)__
+    * Reduce method for mapping sequences
+    * Inner reduce method
+    * Reversed reduce method for ordering sequences
+    * Filter-false method
+    * Haskell-like aliases for reduce functions (fold, foldl, foldr, foldl1, foldr1)
+* __0.1 (28.07.2023)__
+    * Functional wrappers for iterables (map, filter, reduce)
+    * Output pipelines to list, set and dict
+    * Separate wrappers for sequences (like lists or tuples) and mappings (like dicts)
 
 ## TODO
 
