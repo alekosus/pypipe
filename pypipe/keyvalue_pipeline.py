@@ -23,14 +23,10 @@ class KeyValuePipeline(Pipeline):
         return super().map(KeyValuePipeline.__refunc(func))
 
     def filter(self, func: Callable[[K, V], bool]) -> 'KeyValuePipeline':
-        return super().filter(self.__refunc(func))
+        return super().filter(KeyValuePipeline.__refunc(func))
     
-    def reduce(self, func: Callable[[K, V, K, V], Tuple[K, V]], initial: Tuple[K, V]) -> Tuple[K, V]:
-        return super().reduce(self.__reduce_refunc(func), initial)
-
-    def reduce_inner(self, func: Callable[[K, V, K, V], Tuple[K, V]]) -> Tuple[K, V]:
-        iterable = list(dict(self._iterable).items())
-        return KeyValuePipeline(dict(iterable[1:])).reduce(func, iterable[0])
+    def reduce(self, func: Callable[[K, V, K, V], Tuple[K, V]], initial: Tuple[K, V] | None = None) -> Tuple[K, V]:
+        return super().reduce(KeyValuePipeline.__reduce_refunc(func), initial)
 
     def sum(self, initial: Tuple[K, V] = (0, 0)) -> Tuple[K, V]:
         return self.reduce(lambda acc_key, acc_value, key, value: (acc_key+key, acc_value+value), initial)

@@ -23,13 +23,10 @@ class Pipeline:
         self._iterable = filterfalse(func, self._iterable)
         return self
     
-    def reduce(self, func: Callable[[T, T], T], initial: T) -> T:
+    def reduce(self, func: Callable[[T, T], T], initial: T | None = None) -> T:
+        if initial is None:
+            return reduce(func, self._iterable)
         return reduce(func, self._iterable, initial)
-    
-    def reduce_inner(self, func: Callable[[T, T], T]) -> T:
-        iterator = iter(self._iterable)
-        initial = next(iterator)
-        return Pipeline(iterator).reduce(func, initial)
     
     def fold(self, func: Callable[[T, T], T], initial: T) -> T:
         return self.reduce(func, initial)
@@ -38,7 +35,7 @@ class Pipeline:
         return self.reduce(func, initial)
     
     def foldl1(self, func: Callable[[T, T], T]) -> T:
-        return self.reduce_inner(func)
+        return self.reduce(func)
     
     def sum(self, initial: T = 0) -> T:
         return sum(self._iterable, start=initial)
