@@ -1,6 +1,6 @@
 from typing import Callable, Iterable, TypeVar
 from functools import reduce
-from itertools import filterfalse
+from itertools import accumulate, filterfalse
 from math import prod
 
 
@@ -52,6 +52,9 @@ class Pipeline:
     def any(self) -> bool:
         return any(self._iterable)
     
+    def accumulate(self, func: Callable[[T, T], T], initial: T | None = None) -> 'Pipeline':
+        return Pipeline(accumulate(self._iterable, func, initial=initial))
+
     def to_list(self) -> list[T]:
         return list(self._iterable)
     
