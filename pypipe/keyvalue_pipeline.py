@@ -31,12 +31,6 @@ class KeyValuePipeline(Pipeline):
     def reduce_inner(self, func: Callable[[K, V, K, V], Tuple[K, V]]) -> Tuple[K, V]:
         iterable = list(dict(self._iterable).items())
         return KeyValuePipeline(dict(iterable[1:])).reduce(func, iterable[0])
-
-    def to_list(self) -> list[Tuple[K, V]]:
-        return super().to_list()
-    
-    def to_set(self) -> set[Tuple[K, V]]:
-        return super().to_set()
     
     def to_dict(self) -> dict[K, V]:
         return dict(self._iterable)
