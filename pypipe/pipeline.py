@@ -50,7 +50,13 @@ class Pipeline:
         return any(self._iterable)
     
     def accumulate(self, func: Callable[[T, T], T], initial: T | None = None) -> 'Pipeline':
-        return Pipeline(accumulate(self._iterable, func, initial=initial))
+        return self.__class__(accumulate(self._iterable, func, initial=initial))
+    
+    def scanl(self, func: Callable[[T, T], T], initial: T) -> 'Pipeline':
+        return self.accumulate(func, initial)
+    
+    def scanl1(self, func: Callable[[T, T], T]) -> 'Pipeline':
+        return self.accumulate(func)
 
     def to_list(self) -> list[T]:
         return list(self._iterable)

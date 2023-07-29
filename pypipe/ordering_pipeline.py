@@ -27,6 +27,22 @@ class OrderingPipeline(Pipeline):
     def foldr1(self, func: Callable[[T, T], T]) -> T:
         return self.reduce_reverse(func)
     
+    def accumulate(self, func: Callable[[T, T], T], initial: T | None = None) -> 'OrderingPipeline':
+        if self.__is_reversed:
+            return OrderingPipeline(reversed(list(self._iterable))).accumulate(func, initial)
+        return super().accumulate(func, initial)
+    
+    def accumulate_reverse(self, func: Callable[[T, T], T], initial: T | None = None) -> 'OrderingPipeline':
+        if self.__is_reversed:
+            return super().accumulate(func, initial)
+        return OrderingPipeline(reversed(list(self._iterable))).accumulate(func, initial)
+    
+    def scanr(self, func: Callable[[T, T], T], initial: T) -> 'OrderingPipeline':
+        return self.accumulate_reverse(func, initial)
+    
+    def scanr1(self, func: Callable[[T, T], T]) -> 'OrderingPipeline':
+        return self.accumulate_reverse(func)
+    
     def reverse(self) -> 'OrderingPipeline':
         self.__is_reversed = not self.__is_reversed
         return self
