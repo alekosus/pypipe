@@ -1,6 +1,7 @@
 from typing import Callable, Iterable, TypeVar
 from functools import reduce
 from itertools import filterfalse
+from math import prod
 
 
 T = TypeVar("T")
@@ -38,6 +39,18 @@ class Pipeline:
     
     def foldl1(self, func: Callable[[T, T], T]) -> T:
         return self.reduce_inner(func)
+    
+    def sum(self, initial: T = 0) -> T:
+        return sum(self._iterable, start=initial)
+    
+    def prod(self, initial: T = 1) -> T:
+        return prod(self._iterable, start=initial)
+    
+    def all(self) -> bool:
+        return all(self._iterable)
+    
+    def any(self) -> bool:
+        return any(self._iterable)
     
     def to_list(self) -> list[T]:
         return list(self._iterable)

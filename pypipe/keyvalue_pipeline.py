@@ -31,6 +31,18 @@ class KeyValuePipeline(Pipeline):
     def reduce_inner(self, func: Callable[[K, V, K, V], Tuple[K, V]]) -> Tuple[K, V]:
         iterable = list(dict(self._iterable).items())
         return KeyValuePipeline(dict(iterable[1:])).reduce(func, iterable[0])
+
+    def sum(self, initial: Tuple[K, V] = (0, 0)) -> Tuple[K, V]:
+        return self.reduce(lambda acc_key, acc_value, key, value: (acc_key+key, acc_value+value), initial)
+    
+    def prod(self, initial: Tuple[K, V] = (1, 1)) -> Tuple[K, V]:
+        return self.reduce(lambda acc_key, acc_value, key, value: (acc_key*key, acc_value*value), initial)
+    
+    def all(self) -> Tuple[bool, bool]:
+        return self.reduce_inner(lambda acc_key, acc_value, key, value: (bool(acc_key and key), bool(acc_value and value)))
+    
+    def any(self) -> Tuple[bool, bool]:
+        return self.reduce_inner(lambda acc_key, acc_value, key, value: (bool(acc_key or key), bool(acc_value or value)))
     
     def to_dict(self) -> dict[K, V]:
         return dict(self._iterable)
