@@ -1,10 +1,11 @@
 from typing import Callable, Iterable, TypeVar
 from functools import reduce
-from itertools import accumulate, filterfalse
+from itertools import accumulate, filterfalse, zip_longest
 from math import prod
 
 
 T = TypeVar("T")
+O = TypeVar("O")
 
 
 class Pipeline:
@@ -57,6 +58,16 @@ class Pipeline:
     
     def scanl1(self, func: Callable[[T, T], T]) -> 'Pipeline':
         return self.accumulate(func)
+    
+    def zip(self, other: Iterable[O] | 'Pipeline') -> 'Pipeline':
+        if isinstance(other, Pipeline):
+            return self.__class__(zip(self._iterable, other._iterable))
+        return self.__class__(zip(self._iterable, other))
+    
+    def zip_longest(self, other: Iterable[O] | 'Pipeline', fill_value: T | O | None = None) -> 'Pipeline':
+        if isinstance(other, Pipeline):
+            return self.__class__(zip_longest(self._iterable, other._iterable, fillvalue=fill_value))
+        return self.__class__(zip_longest(self._iterable, other, fillvalue=fill_value))
 
     def to_list(self) -> list[T]:
         return list(self._iterable)
