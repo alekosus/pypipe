@@ -30,15 +30,26 @@ See detailed examples in `examples.py`.
 * `filter`
 * `filter_false`
 * `reduce`
-* `reduce_inner`
+* `accumulate`
+* `zip`
+* `zip_longest`
 * `reverse` (for ordering sequences, like lists or tuples)
+* `sum`
+* `prod`
+* `all`
+* `any`
 * `to_list`
 * `to_set`
 * `to_dict` (for mapping sequences, like dicts)
 
-
 ## Changelog
 
+* __0.3 (29.07.2023)__
+    * Basic aggregation methods (sum, prod, all, any)
+    * Combine reduce and reduce_inner methods
+    * Zip and Longest Zip method
+    * Accumulation method
+    * Haskell-like aliases for accumulate functions (scanl, scanr, scanl1, scanr1)
 * __0.2 (28.07.2023)__
     * Reduce method for mapping sequences
     * Inner reduce method
